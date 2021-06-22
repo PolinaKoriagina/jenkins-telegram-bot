@@ -3,6 +3,7 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import helpers.Attach;
+import helpers.CredentialManagerImpl;
 import helpers.SystemPropertiesReader;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
@@ -17,17 +18,16 @@ public class BaseTest {
     @BeforeAll
     static void setup() {
         final String remoteUrl = SystemPropertiesReader.readSelenoidUrl();
+        final String login = CredentialManagerImpl.getCredConfig().getLogin();
+        final String password = CredentialManagerImpl.getCredConfig().getPassword();
+
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
         Configuration.startMaximized = true;
-
         DesiredCapabilities capabilities = new DesiredCapabilities();
-
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
-
         Configuration.browserCapabilities = capabilities;
-        Configuration.remote = remoteUrl + "/wd/hub/";
+        Configuration.remote = String.format("https://%s:%s@%s", login, password, remoteUrl);
     }
 
     @AfterEach
@@ -38,7 +38,6 @@ public class BaseTest {
         Attach.pageSource();
         Attach.browserConsoleLogs();
         closeWebDriver();
-
         Attach.addVideo(sessionId);
     }
 
