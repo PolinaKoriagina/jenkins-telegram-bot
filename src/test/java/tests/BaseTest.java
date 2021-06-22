@@ -27,7 +27,7 @@ public class BaseTest {
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
         Configuration.browserCapabilities = capabilities;
-        Configuration.remote = String.format("https://%s:%s@%s", login, password, remoteUrl);
+        Configuration.remote = String.format("https://%s:%s@%s/wd/hub/", login, password, remoteUrl);
     }
 
     @AfterEach

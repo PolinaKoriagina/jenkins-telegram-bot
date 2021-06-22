@@ -3,7 +3,7 @@ package helpers;
 public class SystemPropertiesReader {
 
     public static String readSelenoidUrl() {
-        return System.getProperty("selenoidUrl", "selenoid.autotests.cloud/wd/hub/");
+        return System.getProperty("selenoidUrl", "selenoid.autotests.cloud");
     }
 
     public static String readVideoUrl() {
